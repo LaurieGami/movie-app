@@ -1,8 +1,13 @@
-import { getTrendingMovies, getSpecificMovie } from '../api/movies'
+import Layout from '../../components/Layout'
+
+import { getSpecificMovie } from '../api/movies'
 
 function Movie({ movie }) {
     return (
-        <div>
+        <Layout
+            title={movie.title}
+            description={`Details about the movie ${movie.title}.`}
+        >
             <h1>
                 {movie.title}
             </h1>
@@ -11,21 +16,11 @@ function Movie({ movie }) {
                     <li key={genre.id}>{genre.name}</li>
                 ))}
             </ul>
-        </div>
+        </Layout>
     )
 }
 
-export async function getStaticPaths() {
-    const movies = await getTrendingMovies()
-    return {
-        paths: movies.map(movie => {
-            return { params: { movie: movie.id.toString() } }
-        }),
-        fallback: false
-    };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
     const movie = await getSpecificMovie(params.movie)
     return {
         props: {
