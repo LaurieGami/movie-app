@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config()
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY
+const TMDB_ACCESS_TOKEN = process.env.TMDB_ACCESS_TOKEN
 
 export async function getTrendingMovies() {
     const response = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_API_KEY}`)
@@ -23,3 +24,46 @@ export async function getSpecificMovie(movieId) {
     const data = await response.json()
     return data
 }
+
+export async function requestToken() {
+    const response = await fetch(`https://api.themoviedb.org/4/auth/request_token`, {
+        method: 'POST',
+        body: JSON.stringify({
+            "redirect_to": "http://localhost:3000/account"
+        }),
+        headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            "Authorization": `Bearer ${TMDB_ACCESS_TOKEN}`
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export async function accessToken(requestToken) {
+    const response = await fetch(`https://api.themoviedb.org/4/auth/access_token`, {
+        method: 'POST',
+        body: JSON.stringify({
+            "request_token": requestToken
+          }),
+        headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            "Authorization": `Bearer ${TMDB_ACCESS_TOKEN}`
+        }
+    })
+    const data = await response.json()
+    return data
+}
+
+export async function getAccountLists(accountId) {
+    const response = await fetch(`https://api.themoviedb.org/4/account/${accountId}/lists`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            "Authorization": `Bearer ${TMDB_ACCESS_TOKEN}`
+        }
+    })
+    const data = await response.json()
+    return data
+}
+

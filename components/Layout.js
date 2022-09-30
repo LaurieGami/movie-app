@@ -7,6 +7,10 @@ export default function Layout({ title = 'The Movie', description = 'The Movie',
             title: "Home",
             path: "/"
         },
+        {
+            title: "Account",
+            path: "/account"
+        },
     ];
     return (
         <>

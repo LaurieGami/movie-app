@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import Layout from '../../components/Layout'
 
@@ -8,7 +9,6 @@ import { getSearchMovies } from '../api/movies'
 function Search({ search }) {
     const router = useRouter()
     const goBack = () => router.back()
-    console.log(search)
 
     return (
         <Layout
@@ -23,7 +23,10 @@ function Search({ search }) {
                 search.results.map(movie => (
                     <li key={movie.id}>
                         <Link href={`/movies/${movie.id}`}>
-                            <a>{movie.title}</a>
+                            <a>
+                                <Image src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} width={75} height={100} />
+                                {movie.title}
+                            </a>
                         </Link>
                     </li>
                 )) : (
