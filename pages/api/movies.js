@@ -4,10 +4,22 @@ dotenv.config()
 const TMDB_API_KEY = process.env.TMDB_API_KEY
 const TMDB_ACCESS_TOKEN = process.env.TMDB_ACCESS_TOKEN
 
-export async function getTrendingMovies() {
+export async function getThisWeekTrendingMovies() {
     const response = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_API_KEY}`)
     const data = await response.json()
-    return data.results
+    return data
+}
+
+export async function getTodayTrendingMovies() {
+    const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}`)
+    const data = await response.json()
+    return data
+}
+
+export async function getPopularMovies() {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`)
+    const data = await response.json()
+    return data
 }
 
 export async function getSearchMovies(search) {
