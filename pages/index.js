@@ -3,9 +3,10 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import Layout from '../components/Layout'
+import Hero from '../components/Hero'
 import MovieNav from '../components/movies/MovieNav'
 import MovieNavItem from '../components/movies/MovieNavItem'
-import MovieList from '../components/MovieList'
+import MovieList from '../components/movies/MovieList'
 
 import { getThisWeekTrendingMovies, getTodayTrendingMovies, getPopularMovies } from './api/movies'
 
@@ -46,21 +47,8 @@ function Home(props) {
       title="The Movies"
       description="Search for and create list of your favourite movies."
     >
-      <h1>
-        Welcome.
-      </h1>
-      <h2>Millions of movies, TV shows and people to discover. Explore now.</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={search}
-          onChange={handleChange}
-          placeholder="Search for a movie, tv show, person..."
-        />
-        <button type="submit">Search</button>
-      </form>
-
+      <Hero />
+      
       <section>
         <div>
           <h3>What's Popular</h3>
