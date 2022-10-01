@@ -1,5 +1,8 @@
-import Link from 'next/link'
 import Head from 'next/head'
+import {
+    Container,
+    Typography
+} from '@mui/material';
 
 import AppBar from './AppBar';
 
@@ -13,12 +16,16 @@ export default function Layout({ title = 'The Movie', description = 'The Movie',
             </Head>
             <main>
                 <AppBar />
-                <div>
+                <Container disableGutters>
                     {children}
-                </div>
+                </Container>
             </main>
             <footer>
-                <p>Made with love by Laurie and NextJS</p>
+                <Container disableGutters sx={{ display: 'flex', justifyContent: 'center', pt: '20px' }}>
+                    <Typography variant="caption">
+                        Made with ♡ by Laurie & NextJS
+                    </Typography>
+                </Container>
             </footer>
         </>
     )

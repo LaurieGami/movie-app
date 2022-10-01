@@ -1,35 +1,85 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Link from 'next/link';
+import {
+    Box,
+    Card,
+    CardMedia,
+    Container,
+    Typography,
+} from '@mui/material';
+import {
+    Star as StarIcon,
+} from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+
+const RatingDisplay = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    left: 10,
+    bottom: -20,
+    borderRadius: '30px',
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.primary.contrastText,
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5px 10px',
+    border: '2px solid white'
+}));
+
+const HorizontalScrollContainer = styled(Container)(({ theme }) => ({
+    display: 'flex',
+    overflowY: 'auto',
+    paddingBottom: '12px',
+    '&::-webkit-scrollbar': {
+        background: 'transparent',
+        height: '8px'
+    },
+    '&::-webkit-scrollbar-thumb': {
+        background: theme.palette.grey[300],
+        borderRadius: '20px'
+    }
+}));
 
 function MovieList({ results }) {
     return (
-        <ul>
+        <HorizontalScrollContainer disableGutters>
             {results?.map(({ id, title, release_date, vote_average, poster_path }) => {
                 return (
-                    <li key={id}>
-                        <img src={`https://image.tmdb.org/t/p/w500${poster_path}`} alt="" width="60" height="88" />
-                        <div>
-                            <h2>{title}</h2>
-                            <dl>
-                                <div>
-                                    <dt>
-                                        <span>Star Rating</span>
-                                        <svg width="16" height="20" fill="currentColor">
-                                            <path d="M7.05 3.691c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.372 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118L.98 9.483c-.784-.57-.381-1.81.587-1.81H5.03a1 1 0 00.95-.69L7.05 3.69z" />
-                                        </svg>
-                                    </dt>
-                                    <dd>{vote_average.toFixed(1)}</dd>
-                                </div>
-                                <div>
-                                    <dt>Year</dt>
-                                    <dd>{release_date}</dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </li>
+                    <Link key={id} href={`/movies/${id}`}>
+                            <Box sx={{ mx: '10px', cursor: 'pointer' }}>
+                                <Box sx={{ position: 'relative', overflow: 'visible', marginBottom: '20px' }}>
+                                    <Card sx={{ position: 'relative', height: '225px', width: '150px' }}>
+                                        <CardMedia
+                                            sx={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                right: 0,
+                                                height: "100%",
+                                                width: "100%"
+                                            }}
+                                            component="img"
+                                            image={`https://image.tmdb.org/t/p/w500${poster_path}`}
+                                            alt="Hero background cover"
+                                        />
+                                    </Card>
+                                    <RatingDisplay>
+                                        <StarIcon fontSize="small" sx={{ color: 'orange', marginRight: '5px' }} />
+                                        <Typography variant="body2">
+                                            {vote_average.toFixed(1)}
+                                        </Typography>
+                                    </RatingDisplay>
+                                </Box>
+                                <Box>
+                                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                                        {title}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {new Date(release_date).toLocaleDateString("en-US", {year: 'numeric', month: 'short', day: 'numeric'})}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                    </Link>
                 )
             })}
-        </ul>
+        </HorizontalScrollContainer>
     )
 }
 

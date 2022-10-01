@@ -1,11 +1,13 @@
 
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import {
+  Typography,
+} from '@mui/material';
 
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import MovieNav from '../components/movies/MovieNav'
-import MovieNavItem from '../components/movies/MovieNavItem'
 import MovieList from '../components/movies/MovieList'
 
 import { getThisWeekTrendingMovies, getTodayTrendingMovies, getPopularMovies } from './api/movies'
@@ -51,22 +53,16 @@ function Home(props) {
       
       <section>
         <div>
-          <h3>What's Popular</h3>
+          <Typography variant="h5">
+            What's Popular
+          </Typography>
           <MovieList {...props.popular} />
         </div>
         <div>
-          <h3>Trending</h3>
-          <MovieNav>
-            {trendingCategories.map(category => (
-              <MovieNavItem
-                key={category.id}
-                handleClick={() => setTrending(category.id)}
-                isActive={trending === category.id}
-              >
-                {category.displayName}
-              </MovieNavItem>
-            ))}
-          </MovieNav>
+          <Typography variant="h5">
+            Trending
+          </Typography>
+          <MovieNav categories={trendingCategories} active={trending} handleClick={setTrending} />
           <MovieList {...props[trendingCategories.find(c => c.id === trending).dataName]} />
         </div>
 
